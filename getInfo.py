@@ -19,7 +19,8 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     sysFunctions.limitTracebackInfo(0)      # limit traceback info
     fileInfoCmd = 'mediainfo'               # file info command
     sysFunctions.cmdInstalled(fileInfoCmd)  # check if command is installed
-    fileFunctions.listFiles(folderIn, True) # list files in directory
+    fileName, fullName = \
+        fileFunctions.listFiles(folderIn, True) # list files in directory
     # write the structure to a file (rewrite existing or not)
     
     return 0
@@ -30,11 +31,11 @@ def test(path: str):
     
     os.chdir(path)
     print(os.getcwd())
-    res = subprocess.run(['mediainfo', 'test.mp3'], stdout=subprocess.PIPE)
+    res = subprocess.run(['mediainfo', '106 А.Миронов - Песня Остапа Бендера (12 стульев).mp3'], stdout=subprocess.PIPE)
     print(res.stdout.decode('utf-8'))
 
-#test(r'/mnt/Internal_HDD/0_FROM_EXTERNAL/music/folder')
-folder = r'/mnt/Internal_HDD/0_FROM_EXTERNAL/music/folder'
+#test(r'/mnt/Internal_HDD/0_FROM_EXTERNAL/music/З_фільмів/12 стульев')
+folder = r'/home/linux/Documents/TEST'
 out = r'/home/linux/Documents'
 getInfo(folder, out)
 print('THE END')
