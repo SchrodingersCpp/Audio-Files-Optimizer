@@ -36,5 +36,5 @@ def test(path: str):
 #test(r'/mnt/Internal_HDD/0_FROM_EXTERNAL/music/З_фільмів/12 стульев')
 folder = r'/home/linux/Documents/TEST'
 out = r'/home/linux/Documents'
-getInfo(folder, out)
+print(getInfo(folder, out))
 print('THE END')
