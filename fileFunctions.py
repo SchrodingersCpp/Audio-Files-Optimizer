@@ -1,7 +1,9 @@
+import sysFunctions
 import typing
 import os
+import subprocess
 
-def pathChecks(path: str) -> bool:
+def pathChecks(path: str):
     """
     Performs correctness checks for the specified path.
     
@@ -20,13 +22,48 @@ def pathChecks(path: str) -> bool:
     if not os.path.exists(path):
         raise Exception(f'Specified "path" ("{path}") does not exist!')
     
+    return None
+
+def dirCheck(path: str):
+    """
+    Performs whether the specified path is a directory.
+    
+    path : str
+        Path to the specified folder.
+    
+    Returns None.
+    """
+    
+    # check path correctness
+    pathChecks(path)
+    
     # check whether "path" is a folder
     if not os.path.isdir(path):
         raise Exception(f'Specified "path" ("{path}") is not a folder!')
     
     return None
 
-def listFiles(path: str, recursive: bool = False) -> typing.List[str]:
+def fileCheck(path: str):
+    """
+    Performs whether the specified path is a file.
+    
+    path : str
+        Path to the specified file.
+    
+    Returns None.
+    """
+    
+    # check path correctness
+    pathChecks(path)
+    
+    # check whether "path" is a file
+    if not os.path.isfile(path):
+        raise Exception(f'Specified "path" ("{path}") is not a file!')
+    
+    return None
+
+def listFiles(path: str, recursive: bool = False) -> \
+    typing.Tuple[typing.List[str], typing.List[str]]:
     """
     Lists files in the specified folder.
     
@@ -62,3 +99,52 @@ def listFiles(path: str, recursive: bool = False) -> typing.List[str]:
                 fullName.append(fullPath)
     
     return fileName, fullName
+
+def getMetadata(files: typing.List[str]) -> \
+    typing.Tuple[typing.List[str], typing.List[str],
+                 typing.List[str], typing.List[str]]:
+    """
+    TODO
+    """
+    
+    fileInfoCmd = 'mediainfo'               # file info command
+    sysFunctions.cmdInstalled(fileInfoCmd)  # check if command is installed
+    grepCmd = 'grep'                        # "grep" command
+    sysFunctions.cmdInstalled(grepCmd)      # check if command is installed
+    echoCmd = 'echo'                        # "echo" command
+    sysFunctions.cmdInstalled(echoCmd)      # check if command is installed
+    
+    bitrateType = []
+    kbps = []
+    title = []
+    artist = []
+    
+    # keywords to find appropriate info
+    keyAudio = 'audio'                  # used to check if it is audio
+    keyBitrateType = 'bit.rate mode'
+    keykbps = 'bit.rate'
+    keyTitle = 'track name'
+    keyArtist = 'performer'
+    
+    nNP = 0 # count not processed files
+    
+    for file in files:
+        fileCheck(file) # check if the file exists
+        metadata = subprocess.run([fileInfoCmd, file],
+                                  stdout = subprocess.PIPE) # get metadata
+        metadata = metadata.stdout.decode('utf-8').lower()
+        if keyAudio not in metadata: # if not an audio file
+            nNP += 1
+            print(f'{(str(nNP)+":").ljust(5)} "{file}" does not contain audio!')
+            bitrateType.append('')
+            kbps.append('')
+            title.append('')
+            artist.append('')
+        else: # if an audio file
+            bitrate = subprocess.run([echoCmd, f'"{metadata}"', '|',
+                                      grepCmd, f'"{keykbps}"'],
+                                     stdout = subprocess.PIPE)
+            bitrate = bitrate.stdout.decode('utf-8')
+            print("BITRATE\n", bitrate)
+    
+    return bitrateType, kbps, title, artist
