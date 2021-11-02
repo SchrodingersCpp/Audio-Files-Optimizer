@@ -14,13 +14,12 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     Returns None.
     """
     
-    fileFunctions.pathChecks(folderIn)      # check "folderIn" correctness
-    fileFunctions.pathChecks(folderOut)     # check "folderOut" correctness
+    fileFunctions.dirCheck(folderIn)        # check "folderIn" correctness
+    fileFunctions.dirCheck(folderOut)       # check "folderOut" correctness
     sysFunctions.limitTracebackInfo(0)      # limit traceback info
-    fileInfoCmd = 'mediainfo'               # file info command
-    sysFunctions.cmdInstalled(fileInfoCmd)  # check if command is installed
     fileName, fullName = \
         fileFunctions.listFiles(folderIn, True) # list files in directory
+    fileFunctions.getMetadata(fullName)     # get metadata from filelist
     # write the structure to a file (rewrite existing or not)
     
     return 0
