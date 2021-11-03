@@ -2,6 +2,7 @@ import sysFunctions
 import typing
 import os
 import subprocess
+import re
 
 def pathChecks(path: str):
     """
@@ -109,10 +110,6 @@ def getMetadata(files: typing.List[str]) -> \
     
     fileInfoCmd = 'mediainfo'               # file info command
     sysFunctions.cmdInstalled(fileInfoCmd)  # check if command is installed
-    grepCmd = 'grep'                        # "grep" command
-    sysFunctions.cmdInstalled(grepCmd)      # check if command is installed
-    echoCmd = 'echo'                        # "echo" command
-    sysFunctions.cmdInstalled(echoCmd)      # check if command is installed
     
     bitrateType = []
     kbps = []
@@ -141,10 +138,10 @@ def getMetadata(files: typing.List[str]) -> \
             title.append('')
             artist.append('')
         else: # if an audio file
-            bitrate = subprocess.run([echoCmd, f'"{metadata}"', '|',
-                                      grepCmd, f'"{keykbps}"'],
-                                     stdout = subprocess.PIPE)
-            bitrate = bitrate.stdout.decode('utf-8')
-            print("BITRATE\n", bitrate)
+            # TODO
+            # check Audio section only
+            result = re.findall(rf'^.*{keyBitrateType}.*$',
+                                metadata, re.MULTILINE)
+            print(result)
     
     return bitrateType, kbps, title, artist
