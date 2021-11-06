@@ -106,6 +106,7 @@ def getMetadata(files: typing.List[str]) -> \
                  typing.List[str], typing.List[str]]:
     """
     TODO
+    Add function description
     """
     
     fileInfoCmd = 'mediainfo'               # file info command
@@ -120,6 +121,7 @@ def getMetadata(files: typing.List[str]) -> \
     keyAudio = 'audio'                  # used to check if it is audio
     keyBitrateType = 'bit.rate mode'
     keykbps = 'bit.rate'
+    keykbpsUnit = 'kb.s'
     keyTitle = 'track name'
     keyArtist = 'performer'
     
@@ -129,19 +131,60 @@ def getMetadata(files: typing.List[str]) -> \
         fileCheck(file) # check if the file exists
         metadata = subprocess.run([fileInfoCmd, file],
                                   stdout = subprocess.PIPE) # get metadata
-        metadata = metadata.stdout.decode('utf-8').lower()
-        if keyAudio not in metadata: # if not an audio file
+        metadata = metadata.stdout.decode('utf-8')
+        if keyAudio not in metadata.lower(): # if not an audio file
             nNP += 1
             print(f'{(str(nNP)+":").ljust(5)} "{file}" does not contain audio!')
+            
             bitrateType.append('')
             kbps.append('')
             title.append('')
             artist.append('')
+            
         else: # if an audio file
+            # get Audio section
+            
+            audioMetadata = metadata[re.search(f'^{keyAudio}$', metadata,
+                            flags = re.MULTILINE | re.IGNORECASE).start():]
+            
+            # get bitrate mode
+            result = re.findall(rf'^.*{keyBitrateType}.*$', audioMetadata,
+                                flags = re.MULTILINE | re.IGNORECASE)
+            if result != []:
+                result = result[0]
+                result = re.findall(r":.*", result)[0]
+                result = result[1:].strip()
+                bitrateType.append(result)
+            else:
+                bitrateType.append('')
+            
+            # get kbps
+            result = re.findall(rf'^.*{keykbps}.*$', audioMetadata,
+                                flags = re.MULTILINE | re.IGNORECASE)
+            
+            # remove bitrate type results
             # TODO
-            # check Audio section only
-            result = re.findall(rf'^.*{keyBitrateType}.*$',
-                                metadata, re.MULTILINE)
+            # print(result)
+            # recomp = re.compile(rf'^(?!{keyBitrateType})', flags=re.IGNORECASE)
+            # print('-----', recomp.match(result[1]))
+            # result = list(filter(lambda s: recomp.match, result))
+            # print('b=', result)
+            # del recomp
+            print('out=', result)
+            if result != []:
+                result = result[0]
+                result = re.findall(rf'\d+[ ,]?\d*[.,]?\d*(?= {keykbpsUnit}$)',
+                                    result)[0]
+                kbps.append(result)
+            else:
+                kbps.append('')
+            
+            # get track name
+            result = re.findall(rf'^.*{keyTitle}.*$', metadata,
+                                flags = re.MULTILINE | re.IGNORECASE)
+            
+            # get artist
+            
             print(result)
     
     return bitrateType, kbps, title, artist
