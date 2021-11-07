@@ -105,8 +105,16 @@ def getMetadata(files: typing.List[str]) -> \
     typing.Tuple[typing.List[str], typing.List[str],
                  typing.List[str], typing.List[str]]:
     """
-    TODO
-    Add function description
+    Retrieve metadata from the list of files.
+    
+    files : List[str]
+        List of files with their full paths.
+    
+    Returns:
+        List of Bitrate Types : List[str].
+        List of Bitrates (kbps) : List[str].
+        List of song titles : List[str].
+        List of song artists : List[str].
     """
     
     fileInfoCmd = 'mediainfo'               # file info command
@@ -143,7 +151,6 @@ def getMetadata(files: typing.List[str]) -> \
             
         else: # if an audio file
             # get Audio section
-            
             audioMetadata = metadata[re.search(f'^{keyAudio}$', metadata,
                             flags = re.MULTILINE | re.IGNORECASE).start():]
             
@@ -163,14 +170,10 @@ def getMetadata(files: typing.List[str]) -> \
                                 flags = re.MULTILINE | re.IGNORECASE)
             
             # remove bitrate type results
-            # TODO
-            # print(result)
-            # recomp = re.compile(rf'^(?!{keyBitrateType})', flags=re.IGNORECASE)
-            # print('-----', recomp.match(result[1]))
-            # result = list(filter(lambda s: recomp.match, result))
-            # print('b=', result)
-            # del recomp
-            print('out=', result)
+            recomp = re.compile(rf'^(?!{keyBitrateType})', flags=re.IGNORECASE)
+            result = list(filter(recomp.match, result))
+            del recomp
+            
             if result != []:
                 result = result[0]
                 result = re.findall(rf'\d+[ ,]?\d*[.,]?\d*(?= {keykbpsUnit}$)',
@@ -180,11 +183,25 @@ def getMetadata(files: typing.List[str]) -> \
                 kbps.append('')
             
             # get track name
-            result = re.findall(rf'^.*{keyTitle}.*$', metadata,
+            result = re.findall(rf'^{keyTitle} .*$', metadata,
                                 flags = re.MULTILINE | re.IGNORECASE)
+            if result != []:
+                result = result[0]
+                result = re.findall(r'(?<=: ).*$', result,
+                                    flags = re.MULTILINE | re.IGNORECASE)[0]
+                title.append(result)
+            else:
+                title.append('')
             
             # get artist
-            
-            print(result)
+            result = re.findall(rf'^{keyArtist}.*$', metadata,
+                                flags = re.MULTILINE | re.IGNORECASE)
+            if result != []:
+                result = result[0]
+                result = re.findall(r'(?<=: ).*$', result,
+                                    flags = re.MULTILINE | re.IGNORECASE)[0]
+                artist.append(result)
+            else:
+                artist.append('')
     
     return bitrateType, kbps, title, artist
