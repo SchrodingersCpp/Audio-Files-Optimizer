@@ -20,6 +20,7 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     fileName, fullName = \
         fileFunctions.listFiles(folderIn, True) # list files in directory
     fileFunctions.getMetadata(fullName)     # get metadata from filelist
+    fileFunctions.getFileSize(fullName)     # get the size of the files
     # write the structure to a file (rewrite existing or not)
     
     return 0
