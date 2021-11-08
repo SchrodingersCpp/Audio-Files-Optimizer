@@ -205,3 +205,20 @@ def getMetadata(files: typing.List[str]) -> \
                 artist.append('')
     
     return bitrateType, kbps, title, artist
+
+def getFileSize(files: typing.List[str]) -> typing.List[int]:
+    """
+    Get file size in bytes.
+    
+    files : List[str]
+        List of files with their full paths.
+    
+    Returns:
+        List of the file size in bytes : List[int].
+    """
+    
+    sizeBytes = []
+    for file in files:
+        sizeBytes.append(os.stat(file).st_size)
+    
+    return sizeBytes
