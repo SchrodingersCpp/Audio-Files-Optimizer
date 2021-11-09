@@ -19,23 +19,14 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     sysFunctions.limitTracebackInfo(0)      # limit traceback info
     fileName, fullName = \
         fileFunctions.listFiles(folderIn, True) # list files in directory
-    fileFunctions.getMetadata(fullName)     # get metadata from filelist
-    fileFunctions.getFileSize(fullName)     # get the size of the files
-    # write the structure to a file (rewrite existing or not)
+    bitrateType, kbps, title, artist = \
+        fileFunctions.getMetadata(fullName) # get metadata from filelist
+    fileSize = fileFunctions.getFileSize(fullName)     # get the size of the files
+    fileFunctions.writeData(fullName, fileName, bitrateType, kbps, title,
+                            artist, fileSize, folderOut) # write the data a file
     
     return 0
 
-def test(path: str):
-    import subprocess
-    import os
-    
-    os.chdir(path)
-    print(os.getcwd())
-    res = subprocess.run(['mediainfo', '106 А.Миронов - Песня Остапа Бендера (12 стульев).mp3'], stdout=subprocess.PIPE)
-    print(res.stdout.decode('utf-8'))
-
-#test(r'/mnt/Internal_HDD/0_FROM_EXTERNAL/music/З_фільмів/12 стульев')
 folder = r'/home/linux/Documents/TEST'
-out = r'/home/linux/Documents'
+out = r'/home/linux/Documents/TESTOUT'
 print(getInfo(folder, out))
-print('THE END')
