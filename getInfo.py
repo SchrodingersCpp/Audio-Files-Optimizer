@@ -21,9 +21,10 @@ def getInfo(folderIn: str, folderOut: str) -> int:
         fileFunctions.listFiles(folderIn, True) # list files in directory
     bitrateType, kbps, title, artist = \
         fileFunctions.getMetadata(fullName) # get metadata from filelist
-    fileSize = fileFunctions.getFileSize(fullName)     # get the size of the files
-    fileFunctions.writeData(fullName, fileName, bitrateType, kbps, title,
-                            artist, fileSize, folderOut) # write the data a file
+    fileSize = fileFunctions.getFileSize(fullName) # get the size of the files
+    extensions = fileFunctions.getFileExtension(fileName) # get files extensions
+    fileFunctions.writeData(fullName, fileName, extensions, bitrateType, kbps,
+                            title, artist, fileSize, folderOut) # write the data a file
     
     return 0
 
