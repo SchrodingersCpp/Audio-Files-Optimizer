@@ -3,6 +3,8 @@ import typing
 import os
 import subprocess
 import re
+import csv
+import datetime
 
 def pathChecks(path: str):
     """
@@ -142,7 +144,8 @@ def getMetadata(files: typing.List[str]) -> \
         metadata = metadata.stdout.decode('utf-8')
         if keyAudio not in metadata.lower(): # if not an audio file
             nNP += 1
-            print(f'{(str(nNP)+":").ljust(5)} "{file}" does not contain audio!')
+            print(f'{(str(nNP)+":").ljust(5)} "{file}" does not contain' +
+                  ' an Audio Section!')
             
             bitrateType.append('')
             kbps.append('')
@@ -222,3 +225,19 @@ def getFileSize(files: typing.List[str]) -> typing.List[int]:
         sizeBytes.append(os.stat(file).st_size)
     
     return sizeBytes
+
+def writeData(fullNames: typing.List[str], fileNames: typing.List[str],
+              bitrateTypes: typing.List[str], kbps: typing.List[str],
+              titles: typing.List[str], artists: typing.List[str],
+              sizeBytes: typing.List[str], folderOut: str):
+    """
+    # TODO
+    """
+    
+    timestamp = datetime.datetime.now() # get timestamp for a filename
+    outFileName = timestamp.strftime('out_%Y-%m-%d_%H-%M-%S.csv')
+    
+    with open(os.path.join(folderOut, outFileName), mode='w') as outcsv:
+        pass
+    
+    return None
