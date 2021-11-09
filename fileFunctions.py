@@ -91,11 +91,14 @@ def listFiles(path: str, recursive: bool = False) -> \
     fullName = [] # file full names
     if recursive is True: # list files in the dir and subdirs
         for root, dirs, files in os.walk(path):
+            files.sort() # sort the files in a folder by name
             for file in files:
                 fileName.append(file)
                 fullName.append(os.path.join(root, file))
     else: # list files in the dir only
-        for file in os.listdir(path):
+        files = os.listdir(path)
+        files.sort() # sort the files in a folder by name
+        for file in files:
             fullPath = os.path.join(path, file)
             if os.path.isfile(fullPath):
                 fileName.append(file)
@@ -226,10 +229,31 @@ def getFileSize(files: typing.List[str]) -> typing.List[int]:
     
     return sizeBytes
 
-def writeData(fullNames: typing.List[str], fileNames: typing.List[str],
-              bitrateTypes: typing.List[str], kbps: typing.List[str],
-              titles: typing.List[str], artists: typing.List[str],
-              sizeBytes: typing.List[str], folderOut: str):
+def getFileExtension(files: typing.List[str]) -> typing.List[str]:
+    """
+    # TODO
+    """
+    
+    extensions = []
+    for file in files:
+        index = file.rfind('.') # search for the extension separator
+        if index > -1: # if no file extension found
+            ext = file[index+1:]
+        else:
+            ext = ''
+        extensions.append(ext)
+    
+    return extensions
+
+def writeData(fullNames: typing.List[str],
+              fileNames: typing.List[str],
+              extensions: typing.List[str],
+              bitrateTypes: typing.List[str],
+              kbps: typing.List[str],
+              titles: typing.List[str],
+              artists: typing.List[str],
+              sizeBytes: typing.List[int],
+              folderOut: str):
     """
     # TODO
     """
@@ -237,7 +261,27 @@ def writeData(fullNames: typing.List[str], fileNames: typing.List[str],
     timestamp = datetime.datetime.now() # get timestamp for a filename
     outFileName = timestamp.strftime('out_%Y-%m-%d_%H-%M-%S.csv')
     
+    # write data to the file
     with open(os.path.join(folderOut, outFileName), mode='w') as outcsv:
-        pass
+        writer = csv.writer(outcsv, dialect='excel')
+        
+        # write a header
+        writer.writerow(['Full Name', 'File Name', 'Extension',
+                         'Bitrate Type', 'kb/s', 'Title', 'Artist',
+                         'Size, bytes', 'File Name (new)', 'Title (new)',
+                         'Artist (new)'])
+        
+        for i in range(len(fileNames)):
+            row = [] # join info into a row
+            row.append(fullNames[i])
+            row.append(fileNames[i])
+            row.append(extensions[i])
+            row.append(bitrateTypes[i])
+            row.append(kbps[i])
+            row.append(titles[i])
+            row.append(artists[i])
+            row.append(sizeBytes[i])
+            
+            writer.writerow(row)
     
     return None
