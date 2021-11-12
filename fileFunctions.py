@@ -184,6 +184,7 @@ def getMetadata(files: typing.List[str]) -> \
                 result = result[0]
                 result = re.findall(rf'\d+[ ,]?\d*[.,]?\d*(?= {keykbpsUnit}$)',
                                     result)[0]
+                result = result.replace(' ', '')
                 kbps.append(result)
             else:
                 kbps.append('')
