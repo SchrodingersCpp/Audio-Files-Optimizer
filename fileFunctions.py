@@ -231,7 +231,13 @@ def getFileSize(files: typing.List[str]) -> typing.List[int]:
 
 def getFileExtension(files: typing.List[str]) -> typing.List[str]:
     """
-    # TODO
+    Get file extensions.
+    
+    files : List[str]
+        List of files with their full paths.
+    
+    Returns:
+        List of the file extensions : List[str].
     """
     
     extensions = []
@@ -255,10 +261,39 @@ def writeData(fullNames: typing.List[str],
               sizeBytes: typing.List[int],
               folderOut: str):
     """
-    # TODO
+    Write file data into a CSV file.
+    
+    fullNames : List[str]
+        List of files with their full paths.
+    
+    fileNames : List[str]
+        List of file names.
+    
+    extensions : List[str]
+        List of file extensions.
+    
+    bitrateTypes : List[str]
+        List of Bitrate Types.
+    
+    kbps : List[str]
+        List of Bitrates (kbps).
+    
+    titles : List[str]
+        List of song titles.
+    
+    artists : List[str]
+        List of song artists.
+    
+    sizeBytes : List[int]
+        List of the file size in bytes.
+    
+    folderOut : str
+        The folder to which save the output CSV file.
+    
+    Returns None.
     """
     
-    timestamp = datetime.datetime.now() # get timestamp for a filename
+    timestamp = datetime.datetime.now() # get a timestamp for a filename
     outFileName = timestamp.strftime('out_%Y-%m-%d_%H-%M-%S.csv')
     
     # write data to the file
