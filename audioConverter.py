@@ -26,6 +26,8 @@ def readFileListData(infoFile: str) -> \
         header = next(reader)            # read and skip the header line
         rootFolder = header[0]
         # get first occurrence of root folder opening bracket
+        # NOTE: regex was not used because the path can contain
+        #       brackets in it
         openBracketIdx = rootFolder.find('(')
         if openBracketIdx > -1:
             rootFolder = rootFolder[openBracketIdx+1:-1]
