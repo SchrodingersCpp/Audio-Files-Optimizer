@@ -14,9 +14,9 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     Returns None.
     """
     
+    sysFunctions.limitTracebackInfo(0)      # limit traceback info
     fileFunctions.dirCheck(folderIn)        # check "folderIn" correctness
     fileFunctions.dirCheck(folderOut)       # check "folderOut" correctness
-    sysFunctions.limitTracebackInfo(0)      # limit traceback info
     fileName, fullName = \
         fileFunctions.listFiles(folderIn, True) # list files in directory
     bitrateType, kbps, title, artist = \
