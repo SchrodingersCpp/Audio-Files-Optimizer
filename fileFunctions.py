@@ -317,6 +317,7 @@ def writeData(fullNames: typing.List[str],
             row.append(titles[i])
             row.append(artists[i])
             row.append(sizeBytes[i])
+            row.extend(['']*3)
             
             writer.writerow(row)
     
