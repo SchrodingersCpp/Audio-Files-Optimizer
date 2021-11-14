@@ -6,7 +6,7 @@ import re
 import csv
 import datetime
 
-def pathChecks(path: str):
+def pathChecks(path: str) -> None:
     """
     Performs correctness checks for the specified path.
     
@@ -27,7 +27,7 @@ def pathChecks(path: str):
     
     return None
 
-def dirCheck(path: str):
+def dirCheck(path: str) -> None:
     """
     Performs whether the specified path is a directory.
     
@@ -46,7 +46,7 @@ def dirCheck(path: str):
     
     return None
 
-def fileCheck(path: str):
+def fileCheck(path: str) -> None:
     """
     Performs whether the specified path is a file.
     
@@ -260,7 +260,7 @@ def writeData(fullNames: typing.List[str],
               titles: typing.List[str],
               artists: typing.List[str],
               sizeBytes: typing.List[int],
-              folderOut: str):
+              folderOut: str) -> None:
     """
     Write file data into a CSV file.
     
