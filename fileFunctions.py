@@ -252,7 +252,8 @@ def getFileExtension(files: typing.List[str]) -> typing.List[str]:
     
     return extensions
 
-def writeData(fullNames: typing.List[str],
+def writeData(rootFolder: str,
+              fullNames: typing.List[str],
               fileNames: typing.List[str],
               extensions: typing.List[str],
               bitrateTypes: typing.List[str],
@@ -263,6 +264,9 @@ def writeData(fullNames: typing.List[str],
               folderOut: str) -> None:
     """
     Write file data into a CSV file.
+    
+    rootFolder : str
+        A root folder
     
     fullNames : List[str]
         List of files with their full paths.
@@ -302,7 +306,7 @@ def writeData(fullNames: typing.List[str],
         writer = csv.writer(outcsv, dialect='excel')
         
         # write a header
-        writer.writerow(['Full Name', 'File Name', 'Extension',
+        writer.writerow([f'Full Name ({rootFolder})', 'File Name', 'Extension',
                          'Bitrate Type', 'kb/s', 'Title', 'Artist',
                          'Size, bytes', 'File Name (new)', 'Title (new)',
                          'Artist (new)'])
