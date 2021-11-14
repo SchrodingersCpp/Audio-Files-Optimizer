@@ -5,7 +5,7 @@ import csv
 import subprocess
 
 def readFileListData(infoFile: str) -> \
-    typing.Tuple[typing.List[str], typing.List[str], typing.List[int],
+    typing.Tuple[str, typing.List[str], typing.List[str], typing.List[int],
                  typing.List[str], typing.List[str], typing.List[str]]:
     """
     TODO
@@ -21,7 +21,15 @@ def readFileListData(infoFile: str) -> \
     # read the content of a CSV file
     with open(infoFile, 'r') as csvfile:
         reader = csv.reader(csvfile, dialect='excel')
-        next(reader)                     # skip the header line
+        
+        # extract the root folder path
+        header = next(reader)            # read and skip the header line
+        rootFolder = header[0]
+        # get first occurrence of root folder opening bracket
+        openBracketIdx = rootFolder.find('(')
+        if openBracketIdx > -1:
+            rootFolder = rootFolder[openBracketIdx+1:-1]
+        
         for row in reader:
             if len(row) > 8:             # files to process
                 processedName = row[8]   # gey a new file name value
@@ -33,7 +41,7 @@ def readFileListData(infoFile: str) -> \
                     title.append(row[9])
                     artist.append(row[10])
     
-    return fullName, existFileName, kbps, newFileName, title, artist
+    return rootFolder, fullName, existFileName, kbps, newFileName, title, artist
 
 def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     """
@@ -57,15 +65,16 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     ffmpeg = 'ffmpeg'                   # converter command
     sysFunctions.cmdInstalled(ffmpeg)   # check if command is installed
     
-    fullName, existFileName, kbps, newFileName, title, artist = \
+    rootFolder, fullName, existFileName, kbps, newFileName, title, artist = \
         readFileListData(infoFile)
     
     # TODO
+    # process files
     # write a CSV output with converted files info
     
     return 0
 
-infoFile = r'/home/linux/Documents/TESTOUT/out_2021-11-14_18-09-31.csv'
+infoFile = r'/home/linux/Documents/TESTOUT/out_2021-11-14_18-48-48.csv'
 outFolder = r'/home/linux/Documents/TESTOUT'
 outkbps = 128
 
