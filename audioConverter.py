@@ -2,6 +2,7 @@ import typing
 import sysFunctions
 import fileFunctions
 import csv
+import os
 import subprocess
 
 def readFileListData(infoFile: str) -> \
@@ -31,6 +32,7 @@ def readFileListData(infoFile: str) -> \
         openBracketIdx = rootFolder.find('(')
         if openBracketIdx > -1:
             rootFolder = rootFolder[openBracketIdx+1:-1]
+            rootFolder = os.path.split(rootFolder)[-1] # get root folder name
         
         for row in reader:
             if len(row) > 8:             # files to process
@@ -73,6 +75,8 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     # TODO
     # process files
     # write a CSV output with converted files info
+    # ffmpeg -i 01* -vn -sn -dn -map a -codec:a libmp3lame -b:a 128k -map_metadata -1 -metadata Artist="Y D" -metadata Title="Some Name" 99.mp3
+
     
     return 0
 
