@@ -6,7 +6,7 @@ import os
 import subprocess
 
 def readFileListData(infoFile: str) -> \
-    typing.Tuple[str, typing.List[str], typing.List[str], typing.List[int],
+    typing.Tuple[str, str, typing.List[str], typing.List[str], typing.List[int],
                  typing.List[str], typing.List[str], typing.List[str]]:
     """
     TODO
@@ -30,8 +30,8 @@ def readFileListData(infoFile: str) -> \
         # NOTE: regex was not used because the path can contain brackets
         openBracketIdx = rootFolder.find('(')
         if openBracketIdx > -1:
-            rootFolder = rootFolder[openBracketIdx+1:-1]
-            rootFolder = os.path.split(rootFolder)[-1] # get root folder name
+            rootPath = rootFolder[openBracketIdx+1:-1]
+            rootFolder = os.path.split(rootPath)[-1] # get root folder name
         
         for row in reader:
             if len(row) > 8:             # files to process
@@ -44,7 +44,32 @@ def readFileListData(infoFile: str) -> \
                     title.append(row[9])
                     artist.append(row[10])
     
-    return rootFolder, fullName, existFileName, kbps, newFileName, title, artist
+    return rootPath, rootFolder, fullName, existFileName, kbps, newFileName, \
+        title, artist
+
+def createFolders(rootPath: str, rootFolder: str, outFolder: str,
+                  fullName: typing.List[str],
+                  existFileName: typing.List[str]) -> None:
+    """
+    TODO
+    """
+    
+    # delete a filename and replace the root folder path with the output path
+    for i in range(len(fullName)):
+        thePath = fullName[i]
+        thePath = thePath.replace(rootPath, os.path.join(outFolder, rootFolder))
+        thePath = thePath.replace(existFileName[i], '')
+        thePath = thePath[:-1]
+        fullName[i] = thePath
+    
+    # remove duplicates
+    fullName = list(set(fullName))
+    
+    # create folders structure
+    for path in fullName:
+        os.makedirs(path, exist_ok = True)
+    
+    return None
 
 def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     """
@@ -68,8 +93,12 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     ffmpeg = 'ffmpeg'                   # converter command
     sysFunctions.cmdInstalled(ffmpeg)   # check if command is installed
     
-    rootFolder, fullName, existFileName, kbps, newFileName, title, artist = \
-        readFileListData(infoFile)
+    # extract data from a csv file
+    rootPath, rootFolder, fullName, existFileName, kbps, newFileName, title, \
+        artist = readFileListData(infoFile)
+    
+    # create output folders
+    createFolders(rootPath, rootFolder, outFolder, fullName, existFileName)
     
     # TODO
     # process files
@@ -81,6 +110,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
 
 infoFile = r'/home/linux/Documents/TESTOUT/out_2021-11-14_18-48-48.csv'
 outFolder = r'/home/linux/Documents/TESTOUT'
+outFolder = r'/mnt/Space/OUTPUT'
 outkbps = 128
 
 convertAudioFiles(infoFile, outFolder, outkbps)
