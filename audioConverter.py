@@ -101,7 +101,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     createFolders(rootPath, rootFolder, outFolder, fullName, existFileName)
     
     # TODO
-    # process files
+    # process files with multiprocessing
     # write a CSV output with converted files info
     # ffmpeg -i 01* -vn -sn -dn -map a -codec:a libmp3lame -b:a 128k -map_metadata -1 -metadata Artist="Y D" -metadata Title="Some Name" 99.mp3
 
