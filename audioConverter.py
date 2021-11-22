@@ -100,6 +100,9 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     # create output folders
     createFolders(rootPath, rootFolder, outFolder, fullName, existFileName)
     
+    # get number of CPU physical cores
+    nPhysCores = sysFunctions.nPhysicalCores()
+    
     # TODO
     # process files with multiprocessing and put the output into variable
     # write a CSV output with converted files info
