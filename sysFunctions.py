@@ -1,3 +1,5 @@
+import psutil
+
 def limitTracebackInfo(depth: int = 0) -> None:
     """
     Limits traceback information.
@@ -46,3 +48,12 @@ def cmdInstalled(cmd: str) -> None:
         raise Exception(f'"{cmd}" command is not installed!')
     
     return None
+
+def nPhysicalCores() -> int:
+    """
+    Get number of CPU physical cores.
+    
+    Returns:
+        Number of CPU physical cores : str.
+    """
+    return psutil.cpu_count(logical = False)
