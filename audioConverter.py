@@ -73,12 +73,15 @@ def createFolders(rootPath: str, rootFolder: str, outFolder: str,
     
     return outPaths
 
-def convertAudioFile(fileFullName: str) -> None:
+def convertAudioFile(fileFullName: str, fileExistkbps: int,
+                     fileOutFolder: str, fileNewName: str,
+                     fileArtist: str, fileTitle: str) -> None:
     """
     TODO
     """
     
-    print(fileFullName)
+    print(f'{fileFullName} {fileExistkbps} {fileOutFolder} '+
+          f'{fileNewName} {fileArtist} {fileTitle}')
     
     return None
 
@@ -109,7 +112,8 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
         newFileName, title, artist = readFileListData(infoFile)
     
     # create output folders
-    outFolders = createFolders(rootPath, rootFolder, outFolder, fullName, existFileName)
+    outFolders = createFolders(rootPath, rootFolder, outFolder, fullName,
+                               existFileName)
     
     # get number of CPU physical cores
     nPhysCores = sysFunctions.nPhysicalCores()
@@ -119,25 +123,31 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     
     # start processing
     for i in range(0, len(fullName), nProcs):
-        # create chunks
         chunkSlice = slice(i, i+nProcs) # chunk range
-        
+        # create chunks
         chunkFullName = fullName[chunkSlice]
-        chunkExistFileName = existFileName[chunkSlice]
+        # chunkExistFileName = existFileName[chunkSlice]
         chunkkbps = kbps[chunkSlice]
         chunkOutFolders = outFolders[chunkSlice]
         chunkNewFileName = newFileName[chunkSlice]
         chunkTitle = title[chunkSlice]
         chunkArtist = artist[chunkSlice]
         
+        # start processes
         procs = []
         for j in range(len(chunkFullName)):
             proc = multiprocessing.Process(target=convertAudioFile,
-                                           args=(chunkFullName[j],))
+                                           args=(chunkFullName[j],
+                                                 chunkkbps[j],
+                                                 chunkOutFolders[j],
+                                                 chunkNewFileName[j],
+                                                 chunkTitle[j],
+                                                 chunkArtist[j]))
             procs.append(proc)
             proc.start()
         for proc in procs:
             proc.join()
+        
     # TODO
     # process files with multiprocessing and put the output into variable
     # write a CSV output with converted files info
