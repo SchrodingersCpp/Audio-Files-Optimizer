@@ -4,6 +4,7 @@ import fileFunctions
 import csv
 import os
 import subprocess
+import multiprocessing
 
 def readFileListData(infoFile: str) -> \
     typing.Tuple[str, str, typing.List[str], typing.List[str], typing.List[int],
@@ -55,21 +56,22 @@ def createFolders(rootPath: str, rootFolder: str, outFolder: str,
     """
     
     # delete a filename and replace the root folder path with the output path
+    outPaths = []
     for i in range(len(fullName)):
         thePath = fullName[i]
         thePath = thePath.replace(rootPath, os.path.join(outFolder, rootFolder))
         thePath = thePath.replace(existFileName[i], '')
         thePath = thePath[:-1]
-        fullName[i] = thePath
+        outPaths.append(thePath)
     
     # remove duplicates
-    fullName = list(set(fullName))
+    setOutFolders = list(set(outPaths))
     
     # create folders structure
-    for path in fullName:
+    for path in setOutFolders:
         os.makedirs(path, exist_ok = True)
     
-    return None
+    return outPaths
 
 def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     """
@@ -94,15 +96,30 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     sysFunctions.cmdInstalled(ffmpeg)   # check if command is installed
     
     # extract data from a csv file
-    rootPath, rootFolder, fullName, existFileName, kbps, newFileName, title, \
-        artist = readFileListData(infoFile)
+    rootPath, rootFolder, fullName, existFileName, kbps, \
+        newFileName, title, artist = readFileListData(infoFile)
     
     # create output folders
-    createFolders(rootPath, rootFolder, outFolder, fullName, existFileName)
+    outFolders = createFolders(rootPath, rootFolder, outFolder, fullName, existFileName)
     
     # get number of CPU physical cores
     nPhysCores = sysFunctions.nPhysicalCores()
     
+    # set number of processes
+    nProcs = nPhysCores
+    
+    # start processing
+    for i in range(0, len(fullName), nProcs):
+        # create chunks
+        chunkSlice = slice(i, i+nProcs) # chunk range
+        chunkFullName = fullName[chunkSlice]
+        chunkExistFileName = existFileName[chunkSlice]
+        chunkkbps = kbps[chunkSlice]
+        chunkOutFolders = outFolders[chunkSlice]
+        chunkNewFileName = newFileName[chunkSlice]
+        chunkTitle = title[chunkSlice]
+        chunkArtist = artist[chunkSlice]
+        
     # TODO
     # process files with multiprocessing and put the output into variable
     # write a CSV output with converted files info
