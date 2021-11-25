@@ -50,7 +50,7 @@ def readFileListData(infoFile: str) -> \
 
 def createFolders(rootPath: str, rootFolder: str, outFolder: str,
                   fullName: typing.List[str],
-                  existFileName: typing.List[str]) -> None:
+                  existFileName: typing.List[str]) -> typing.List[str]:
     """
     TODO
     """
@@ -72,6 +72,13 @@ def createFolders(rootPath: str, rootFolder: str, outFolder: str,
         os.makedirs(path, exist_ok = True)
     
     return outPaths
+
+def convertAudioFile() -> None:
+    """
+    TODO
+    """
+    
+    pass
 
 def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     """
@@ -112,6 +119,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     for i in range(0, len(fullName), nProcs):
         # create chunks
         chunkSlice = slice(i, i+nProcs) # chunk range
+        
         chunkFullName = fullName[chunkSlice]
         chunkExistFileName = existFileName[chunkSlice]
         chunkkbps = kbps[chunkSlice]
@@ -120,6 +128,9 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
         chunkTitle = title[chunkSlice]
         chunkArtist = artist[chunkSlice]
         
+        procs = []
+        from j in range(len(chunkFullName)):
+            proc = multiprocessing.Process(target=convertAudioFile, args=())
     # TODO
     # process files with multiprocessing and put the output into variable
     # write a CSV output with converted files info
