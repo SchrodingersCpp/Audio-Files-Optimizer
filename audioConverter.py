@@ -129,7 +129,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
         chunkArtist = artist[chunkSlice]
         
         procs = []
-        from j in range(len(chunkFullName)):
+        for j in range(len(chunkFullName)):
             proc = multiprocessing.Process(target=convertAudioFile, args=())
     # TODO
     # process files with multiprocessing and put the output into variable
