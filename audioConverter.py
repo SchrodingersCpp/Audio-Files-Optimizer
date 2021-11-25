@@ -73,12 +73,14 @@ def createFolders(rootPath: str, rootFolder: str, outFolder: str,
     
     return outPaths
 
-def convertAudioFile() -> None:
+def convertAudioFile(fileFullName: str) -> None:
     """
     TODO
     """
     
-    pass
+    print(fileFullName)
+    
+    return None
 
 def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     """
@@ -130,7 +132,12 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
         
         procs = []
         for j in range(len(chunkFullName)):
-            proc = multiprocessing.Process(target=convertAudioFile, args=())
+            proc = multiprocessing.Process(target=convertAudioFile,
+                                           args=(chunkFullName[j],))
+            procs.append(proc)
+            proc.start()
+        for proc in procs:
+            proc.join()
     # TODO
     # process files with multiprocessing and put the output into variable
     # write a CSV output with converted files info
