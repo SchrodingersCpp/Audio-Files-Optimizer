@@ -1,6 +1,6 @@
 import psutil
 
-def limitTracebackInfo(depth: int = 0) -> None:
+def limitTracebackInfo(depth: int=0) -> None:
     """
     Limits traceback information.
     
@@ -56,4 +56,4 @@ def nPhysicalCores() -> int:
     Returns:
         Number of CPU physical cores : str.
     """
-    return psutil.cpu_count(logical = False)
+    return psutil.cpu_count(logical=False)
