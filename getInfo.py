@@ -17,12 +17,16 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     sysFunctions.limitTracebackInfo(0)      # limit traceback info
     fileFunctions.dirCheck(folderIn)        # check "folderIn" correctness
     fileFunctions.dirCheck(folderOut)       # check "folderOut" correctness
+    
     fileName, fullName = \
         fileFunctions.listFiles(folderIn, True) # list files in directory
+    
     bitrateType, kbps, title, artist = \
         fileFunctions.getMetadata(fullName) # get metadata from filelist
-    fileSize = fileFunctions.getFileSize(fullName) # get the size of the files
+    
+    fileSize   = fileFunctions.getFileSize(fullName) # get the size of the files
     extensions = fileFunctions.getFileExtension(fileName) # get files extensions
+    
     fileFunctions.writeData(folderIn, fullName, fileName, extensions,
                             bitrateType, kbps, title, artist, fileSize,
                             folderOut) # write the data a file
