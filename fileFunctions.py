@@ -252,16 +252,16 @@ def getFileExtension(files: typing.List[str]) -> typing.List[str]:
     
     return extensions
 
-def writeData(rootFolder: str,
-              fullNames: typing.List[str],
-              fileNames: typing.List[str],
-              extensions: typing.List[str],
-              bitrateTypes: typing.List[str],
-              kbps: typing.List[str],
-              titles: typing.List[str],
-              artists: typing.List[str],
-              sizeBytes: typing.List[int],
-              folderOut: str) -> None:
+def writeData(rootFolder   : str,
+              fullNames    : typing.List[str],
+              fileNames    : typing.List[str],
+              extensions   : typing.List[str],
+              bitrateTypes : typing.List[str],
+              kbps         : typing.List[str],
+              titles       : typing.List[str],
+              artists      : typing.List[str],
+              sizeBytes    : typing.List[int],
+              folderOut    : str) -> None:
     """
     Write file data into a CSV file.
     
