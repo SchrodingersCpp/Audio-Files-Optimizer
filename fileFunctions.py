@@ -4,7 +4,6 @@ import os
 import subprocess
 import re
 import csv
-import datetime
 
 def pathChecks(path: str) -> None:
     """
@@ -298,8 +297,7 @@ def writeData(rootFolder   : str,
     Returns None.
     """
     
-    timestamp = datetime.datetime.now() # get a timestamp for a filename
-    outFileName = timestamp.strftime('out_%Y-%m-%d_%H-%M-%S.csv')
+    outFileName = 'out' + sysFunctions.getTimeStamp() + '.csv'
     
     # write data to the file
     with open(os.path.join(folderOut, outFileName), mode='w') as outcsv:
