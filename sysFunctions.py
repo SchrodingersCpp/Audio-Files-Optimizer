@@ -1,4 +1,5 @@
 import psutil
+import datetime
 
 def limitTracebackInfo(depth: int=0) -> None:
     """
@@ -57,3 +58,16 @@ def nPhysicalCores() -> int:
         Number of CPU physical cores : str.
     """
     return psutil.cpu_count(logical=False)
+
+def getTimeStamp() -> str:
+    """
+    Get current timestamp.
+    
+    Returns:
+        Current timestamp : str.
+    """
+    
+    timestamp = datetime.datetime.now() # get a timestamp for a filename
+    timestamp = timestamp.strftime('_%Y-%m-%d_%H-%M-%S')
+    
+    return timestamp
