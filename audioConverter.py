@@ -319,7 +319,6 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
 if __name__ == '__main__':
     infoFile  = r'/home/linux/Documents/TESTOUT/out_2021-11-14_18-48-48.csv'
     outFolder = r'/home/linux/Documents/TESTOUT'
-    outFolder = r'/mnt/Space/OUTPUT'
     outkbps   = 128
     
     print(convertAudioFiles(infoFile, outFolder, outkbps))
