@@ -296,8 +296,8 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
                                                  chunkkbps[j],
                                                  chunkOutFolders[j],
                                                  chunkNewFileName[j],
-                                                 chunkTitle[j],
                                                  chunkArtist[j],
+                                                 chunkTitle[j],
                                                  outkbps,
                                                  mOutput))
             procs.append(proc)
@@ -317,8 +317,8 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     return 0
 
 if __name__ == '__main__':
-    infoFile  = r'/home/linux/Documents/TESTOUT/out_2021-11-14_18-48-48.csv'
-    outFolder = r'/home/linux/Documents/TESTOUT'
+    infoFile  = r'/mnt/Space/OUTPUT/out_2021-11-28_16-03-49.csv'
+    outFolder = r'/mnt/Space/OUTPUT'
     outkbps   = 128
     
     print(convertAudioFiles(infoFile, outFolder, outkbps))
