@@ -306,7 +306,7 @@ def writeData(rootFolder   : str,
         # write a header
         writer.writerow([f'Full Name ({rootFolder})', 'File Name', 'Extension',
                          'Bitrate Type', 'kb/s', 'Title', 'Artist',
-                         'Size, bytes', 'File Name (new)', 'Title (new)',
+                         'Size, bytes', 'File Name (no extension, new)', 'Title (new)',
                          'Artist (new)'])
         
         for i in range(len(fileNames)):
