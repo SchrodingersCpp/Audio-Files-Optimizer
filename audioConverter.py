@@ -6,6 +6,7 @@ import csv
 import os
 import subprocess
 import multiprocessing
+import warnings
 
 def readFileListData(infoFile: str) -> \
     typing.Tuple[str, str, typing.List[str], typing.List[str], typing.List[str],
@@ -203,7 +204,8 @@ def writeConvertedFiles(logFile: str, fullName_Data:
     
     for oldFullName, fullName, data, err in fullName_Data:
         if len(data) == 0: # no converted file stream (error)
-            print(f'"{oldFullName}" was not converted!')
+            warnMsg = f'"{oldFullName}" was not converted!'
+            warnings.warn(warnMsg, Warning)
             with open(logFile, 'a') as log:
                 log.write('\t')
                 log.write(oldFullName)
@@ -270,8 +272,10 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     logFile = os.path.join(outFolder, 'LOG'+sysFunctions.getTimeStamp())
     open(logFile, 'wb').close()
     
+    totalFiles = len(fullName)               # total number of files
+    
     # start processing
-    for i in range(0, len(fullName), nProcs):
+    for i in range(0, totalFiles, nProcs):
         chunkSlice       = slice(i, i+nProcs) # chunk range
         
         # create chunks
@@ -281,6 +285,8 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
         chunkNewFileName = newFileName[chunkSlice]
         chunkTitle       = title[chunkSlice]
         chunkArtist      = artist[chunkSlice]
+        
+        print(f'Processing files {i+1}-{i+len(chunkkbps)} of {totalFiles}.')
         
         mOutput[:]       = [] # empty output list
         
