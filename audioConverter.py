@@ -6,7 +6,6 @@ import csv
 import os
 import subprocess
 import multiprocessing
-import warnings
 
 def readFileListData(infoFile: str) -> \
     typing.Tuple[str, str, typing.List[str], typing.List[str], typing.List[str],
@@ -204,8 +203,7 @@ def writeConvertedFiles(logFile: str, fullName_Data:
     
     for oldFullName, fullName, data, err in fullName_Data:
         if len(data) == 0: # no converted file stream (error)
-            warnMsg = f'"{oldFullName}" was not converted!'
-            warnings.warn(warnMsg, Warning)
+            print(f'"{oldFullName}" was not converted!')
             with open(logFile, 'a') as log:
                 log.write('\t')
                 log.write(oldFullName)
