@@ -203,6 +203,7 @@ def writeConvertedFiles(logFile: str, fullName_Data:
     
     for oldFullName, fullName, data, err in fullName_Data:
         if len(data) == 0: # no converted file stream (error)
+            print(f'"{oldFullName}" was not converted!')
             with open(logFile, 'a') as log:
                 log.write('\t')
                 log.write(oldFullName)
@@ -305,14 +306,14 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
         
         # write converted files and log on errors
         writeConvertedFiles(logFile, list(mOutput))
-        
-    # write a CSV output with converted files info
-    getInfo.getInfo(outFolder, outFolder)
+    
+    # write a CSV output with converted files info in root folder
+    getInfo.getInfo(os.path.join(outFolder, rootFolder), outFolder)
     
     return 0
 
 if __name__ == '__main__':
-    infoFile  = r'/home/linux/Documents/TESTOUT/out_2021-11-27_17-26-13.csv'
+    infoFile  = r'/home/linux/Documents/TESTOUT/out_2021-11-14_18-48-48.csv'
     outFolder = r'/home/linux/Documents/TESTOUT'
     outFolder = r'/mnt/Space/OUTPUT'
     outkbps   = 128
