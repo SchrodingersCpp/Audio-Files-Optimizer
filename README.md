@@ -22,4 +22,4 @@ Helps to reduce the size of your audio files. The script removes all the metadat
    - `outFolder` is the folder to which processed audio files will be written.
    - `outkbps` is the `kbps` parameter for the processed files.
 
-  **Note:** If `kbps` of an input file is smaller than that of the processed file, `kbps` of original file will be left.
+   **Note:** If `kbps` of an input file is smaller than that of the processed file, `kbps` of original file will be left.
