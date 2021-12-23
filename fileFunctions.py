@@ -144,6 +144,11 @@ def getMetadata(files: typing.List[str]) -> \
         metadata = subprocess.run([fileInfoCmd, file],
                                   stdout=subprocess.PIPE) # get metadata
         metadata = metadata.stdout.decode('utf-8')
+        
+        # metadata output contains file name which can contain keywords that
+        # that the script looks for
+        metadata = metadata.replace(file, '')
+        
         if keyAudio not in metadata.lower(): # if not an audio file
             nNP += 1
             print(f'{(str(nNP)+":").ljust(5)} "{file}" does not contain' +
