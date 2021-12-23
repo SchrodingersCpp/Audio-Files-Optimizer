@@ -11,7 +11,7 @@ def getInfo(folderIn: str, folderOut: str) -> int:
     folderOut: str
         Folder to which an output file is written.
     
-    Returns None.
+    Returns 0.
     """
     
     sysFunctions.limitTracebackInfo(0)      # limit traceback info
