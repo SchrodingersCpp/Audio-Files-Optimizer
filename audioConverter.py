@@ -230,7 +230,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
     outkbps: int
         Output kbps.
     
-    Returns None.
+    Returns 0.
     """
     
     sysFunctions.limitTracebackInfo(0)     # limit traceback info
