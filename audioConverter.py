@@ -148,7 +148,7 @@ def convertAudioFile(fileFullName  : str, fileExistkbps : str,
         fileExistkbps = 0
     
     # converter command
-    if newkbps > int(fileExistkbps): # for smaller existing kbps ...
+    if newkbps > float(fileExistkbps): # for smaller existing kbps ...
         if fileFullName[-4:] == '.mp3': # ... copy audio
             cmd = ['ffmpeg', '-i', f'{fileFullName}', '-vn', '-sn', '-dn',
                    '-map', 'a', '-codec:a', 'copy',
