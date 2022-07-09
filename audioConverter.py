@@ -30,7 +30,7 @@ def readFileListData(infoFile: str) -> \
 	fullName		= []
 	existFileName	= []
 	kbps			= []
-	newFileName 	= []
+	newFileName		= []
 	title			= []
 	artist			= []
 
@@ -286,7 +286,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
 
 		print(f'Processing files {i+1}-{i+len(chunkkbps)} of {totalFiles}.')
 
-		mOutput[:]	   = [] # empty output list
+		mOutput[:] = [] # empty output list
 
 		# create processes
 		procs = []
