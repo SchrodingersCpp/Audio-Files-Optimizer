@@ -150,14 +150,14 @@ def convertAudioFile(fileFullName	: str, fileExistkbps	: str,
 	# converter command
 	if newkbps > float(fileExistkbps): # for smaller existing kbps ...
 		if fileFullName[-4:] == '.mp3': # ... copy audio
-			cmd = ['ffmpeg', '-i', f'{fileFullName}', '-vn', '-sn', '-dn',
+			cmd = ['ffmpeg', '-i', 'pipe:0', '-vn', '-sn', '-dn',
 				   '-map', 'a', '-codec:a', 'copy',
 				   '-map_metadata', '-1',
 				   '-metadata', f'Artist={fileArtist}',
 				   '-metadata', f'Title={fileTitle}',
 				   '-f', 'mp3', 'pipe:1']
 		else: # ... convert to new filetype
-			cmd = ['ffmpeg', '-i', f'{fileFullName}', '-vn', '-sn', '-dn',
+			cmd = ['ffmpeg', '-i', 'pipe:0', '-vn', '-sn', '-dn',
 				   '-map', 'a', '-codec:a', 'libmp3lame', '-b:a',
 				   f'{fileExistkbps}k',
 				   '-map_metadata', '-1',
@@ -165,16 +165,19 @@ def convertAudioFile(fileFullName	: str, fileExistkbps	: str,
 				   '-metadata', f'Title={fileTitle}',
 				   '-f', 'mp3', 'pipe:1']
 	else: # reduce kbps (convert with new kbps)
-		cmd = ['ffmpeg', '-i', f'{fileFullName}', '-vn', '-sn', '-dn',
+		cmd = ['ffmpeg', '-i', 'pipe:0', '-vn', '-sn', '-dn',
 			   '-map', 'a', '-codec:a', 'libmp3lame', '-b:a', f'{newkbps}k',
 			   '-map_metadata', '-1',
 			   '-metadata', f'Artist={fileArtist}',
 			   '-metadata', f'Title={fileTitle}',
 			   '-f', 'mp3', 'pipe:1']
 
+	# read file to input stream
+	cmdout = subprocess.run(['cat', f'{fileFullName}'], stdout=subprocess.PIPE)
 	# convert file
-	cmdout = subprocess.run(cmd, stdout=subprocess.PIPE,
-								 stderr=subprocess.PIPE)
+	cmdout = subprocess.run(cmd, input=cmdout.stdout,
+							stdout=subprocess.PIPE,
+							stderr=subprocess.PIPE)
 	output = cmdout.stdout
 	outerr = cmdout.stderr
 

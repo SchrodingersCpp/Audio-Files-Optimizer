@@ -34,6 +34,6 @@ def getInfo(folderIn: str, folderOut: str) -> int:
 	return 0
 
 if __name__ == '__main__':
-	folder	= r'/home/linux/Documents/TEST'
+	folder	= r'/home/linux/Documents/TESTOUT'
 	out			= r'/home/linux/Documents/TESTOUT'
 	print(getInfo(folder, out))
