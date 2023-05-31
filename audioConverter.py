@@ -52,7 +52,7 @@ def readFileListData(infoFile: str) -> \
 
         for row in reader:
             if len(row) > 8:            # files to process
-                processedName = row[8]  # gey a new file name value
+                processedName = row[8]  # get a new file name value
                 if processedName != '': # check if a new file name exists
                     fullName.append(row[0])
                     existFileName.append(row[1])
