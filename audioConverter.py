@@ -131,7 +131,7 @@ def convertAudioFile(fileFullName  : str, fileExistkbps : str,
         Converted file artist.
 
     fileTitle : str
-        Converted file artist.
+        Converted file title.
 
     newkbps : int
         Converted file kbps.
