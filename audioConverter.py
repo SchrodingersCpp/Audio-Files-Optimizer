@@ -300,14 +300,12 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
                               mOutput))
       procs.append(proc)
 
-      for proc in procs:
-        proc.start()
+    for proc in procs: proc.start()
 
-      for proc in procs:
-        proc.join()
+    for proc in procs: proc.join()
 
-      # write converted files and log on errors
-      writeConvertedFiles(logFile, list(mOutput))
+    # write converted files and log on errors
+    writeConvertedFiles(logFile, list(mOutput))
 
   # write a CSV output with converted files info in root folder
   gi.getInfo(os.path.join(outFolder, rootFolder), outFolder)
@@ -315,7 +313,7 @@ def convertAudioFiles(infoFile: str, outFolder: str, outkbps: int) -> None:
   return 0
 
 if __name__ == '__main__':
-  infoFile  = r'/home/linux/Downloads/convert/out_2024-03-01_19-01-09.csv'
+  infoFile  = r'/home/linux/Downloads/convert/out_2024-03-22_15-19-13.csv'
   outFolder = r'/home/linux/Downloads/converted/'
   outkbps   = 128
 
