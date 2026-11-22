@@ -72,4 +72,3 @@ def getTimeStamp() -> str:
   timestamp = timestamp.strftime('_%Y-%m-%d_%H-%M-%S')
 
   return timestamp
-

@@ -29,7 +29,7 @@ def pathChecks(path: str) -> None:
 
 def dirCheck(path: str) -> None:
   """
-  Performs whether the specified path is a directory.
+  Performs check whether the specified path is a directory.
 
   path : str
     Path to the specified folder.
@@ -48,7 +48,7 @@ def dirCheck(path: str) -> None:
 
 def fileCheck(path: str) -> None:
   """
-  Performs whether the specified path is a file.
+  Performs check whether the specified path is a file.
 
   path : str
     Path to the specified file.
@@ -109,7 +109,7 @@ def listFiles(path: str, recursive: bool=False) -> \
 def getMetadata(files: tp.List[str]) -> \
     tp.Tuple[tp.List[str], tp.List[str], tp.List[str], tp.List[str]]:
   """
-  Retrieve metadata from the list of files.
+  Retrieves metadata from the list of files.
 
   files : List[str]
     List of files with their full paths.
@@ -145,7 +145,7 @@ def getMetadata(files: tp.List[str]) -> \
     metadata = metadata.stdout.decode('utf-8')
 
     # metadata output contains file name which can contain keywords that
-    # that the script looks for
+    # the script looks for
     metadata = metadata.replace(file, '')
 
     if keyAudio not in metadata.lower(): # if not an audio file
@@ -218,7 +218,7 @@ def getMetadata(files: tp.List[str]) -> \
 
 def getFileSize(files: tp.List[str]) -> tp.List[int]:
   """
-  Get file size in bytes.
+  Gets file size in bytes.
 
   files : List[str]
     List of files with their full paths.
@@ -235,7 +235,7 @@ def getFileSize(files: tp.List[str]) -> tp.List[int]:
 
 def getFileExtension(files: tp.List[str]) -> tp.List[str]:
   """
-  Get file extensions.
+  Gets file extensions.
 
   files : List[str]
     List of files with their full paths.
@@ -266,7 +266,7 @@ def writeData(rootFolder   : str,
               sizeBytes    : tp.List[int],
               folderOut    : str) -> None:
   """
-  Write file data into a CSV file.
+  Writes file data into a CSV file.
 
   rootFolder : str
     A root folder
@@ -328,4 +328,3 @@ def writeData(rootFolder   : str,
       writer.writerow(row)
 
   return None
-

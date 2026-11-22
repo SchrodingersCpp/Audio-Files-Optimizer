@@ -32,7 +32,6 @@ def getInfo(folderIn: str, folderOut: str) -> int:
   return 0
 
 if __name__ == '__main__':
-  folder = r'/mnt/Internal_HDD/0_FROM_EXTERNAL/music/'
-  out    = r'/home/linux/Downloads/convert/'
+  folder = r'/mnt/Internal_HDD/0_FROM_EXTERNAL/sounds/z/'
+  out    = r'/mnt/Internal_HDD/0_FROM_EXTERNAL/sounds/zz/'
   print(getInfo(folder, out))
-
